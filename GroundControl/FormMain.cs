@@ -281,7 +281,7 @@ namespace GroundControl
             if (e.KeyCode == Keys.S) MoveKeys(Direction.Down, 1);
 
             // Handle delete key
-            if (e.KeyCode == Keys.Delete)
+            if (e.KeyCode == Keys.Delete || e.KeyCode == Keys.Back)
             {
                 // Save before change
                 SaveUndoSnapshot();
@@ -612,55 +612,6 @@ namespace GroundControl
 
         #region Drawing
 
-        private SolidBrush GroupBackground(string column)
-        {
-            var idx = column.IndexOf(":");
-            var groupName = idx != -1 ? column.Substring(0, idx) : string.Empty;
-            if (groupName == string.Empty) return new SolidBrush(Color.Black);
-            //var first =  (int)groupName.ToUpperInvariant()[0];
-            //first -= 65;
-            //first %= 16;
-            var first = groupName.GetHashCode();
-            first %= 16;
-            switch (first)
-            {
-                case 0:
-                    return new SolidBrush(Color.Aqua);
-                case 1:
-                    return new SolidBrush(Color.Coral);
-                case 2:
-                    return new SolidBrush(Color.BlueViolet);
-                case 3:
-                    return new SolidBrush(Color.Brown);
-                case 4:
-                    return new SolidBrush(Color.Chartreuse);
-                case 5:
-                    return new SolidBrush(Color.Crimson);
-                case 6:
-                    return new SolidBrush(Color.Chocolate);
-                case 7:
-                    return new SolidBrush(Color.CadetBlue);
-                case 8:
-                    return new SolidBrush(Color.CornflowerBlue);
-                case 9:
-                    return new SolidBrush(Color.DarkCyan);
-                case 10:
-                    return new SolidBrush(Color.DarkGreen);
-                case 11:
-                    return new SolidBrush(Color.DarkMagenta);
-                case 12:
-                    return new SolidBrush(Color.DarkOliveGreen);
-                case 13:
-                    return new SolidBrush(Color.DeepPink);
-                case 14:
-                    return new SolidBrush(Color.DarkGoldenrod);
-                case 15:
-                    return new SolidBrush(Color.DarkSalmon);
-                default:
-                    return new SolidBrush(Color.Orchid);
-
-            }
-        }
 
         private void pnlDraw_Paint(object sender, PaintEventArgs e)
         {
@@ -803,7 +754,7 @@ namespace GroundControl
                 // Draw column header 
                 titleRect = CellRect(iColumn, -1).Expand(left: -1);
 
-                var brsh = GroupBackground(column.Name);
+                var brsh = BazookaHelpers.GroupBackground(column.Name);
                 g.FillRectangle(brsh, titleRect);
                 //g.FillRectangle(titleBrush, titleRect);
 

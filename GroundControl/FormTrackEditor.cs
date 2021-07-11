@@ -97,7 +97,12 @@ namespace GroundControl
             foreach (var track in m_Tracks)
             {
                 var item = listTracks.Items.Add(new ListViewItem
-                    {Text = track.Name, Checked = track.Visible, Tag = track});
+                {
+                    Text = track.Name, 
+                    Checked = track.Visible, 
+                    Tag = track,
+                    BackColor = BazookaHelpers.GroupColor(BazookaHelpers.GetGroup(track.Name))
+                });
                 if (track.Name.IndexOf(":") != -1)
                 {
                     var groupToFind = track.Name.Substring(0, track.Name.IndexOf(":"));
@@ -116,9 +121,10 @@ namespace GroundControl
 
             // Resize by content
             listTracks.AutoResizeColumn(0, ColumnHeaderAutoResizeStyle.ColumnContent);
-            
+
             //
             // Groups
+            listViewGroups.Items.Clear();
             var groups = new HashSet<string>();
             foreach (var track in m_Tracks)
             {
@@ -136,10 +142,42 @@ namespace GroundControl
 
             foreach (var item in groups)
             {
-                checkedListBoxGroups.Items.Add(item, true);
+                listViewGroups.Items.Add(new ListViewItem
+                {
+                    Name = item,
+                    Text = item,
+                    Checked = true,
+                    BackColor = BazookaHelpers.GroupColor(item)
+                });
+            }
+            listViewGroups.ItemCheck += ListViewGroupsOnItemCheck;
+            listViewGroups.AutoResizeColumn(0, ColumnHeaderAutoResizeStyle.ColumnContent);
+
+            //checkedListBoxGroups.ItemCheck += checkedListBoxGroups_ItemCheck;
+        }
+
+        private void ListViewGroupsOnItemCheck(object sender, ItemCheckEventArgs e)
+        {
+            var item = listViewGroups.Items[e.Index];
+            foreach (var litem in listTracks.Items)
+            {
+                var listViewItem = (ListViewItem)litem;
+                if (listViewItem.Text.StartsWith(item.Name))
+                {
+                    listViewItem.Checked = e.NewValue == CheckState.Checked;
+                }
             }
 
-            checkedListBoxGroups.ItemCheck += checkedListBoxGroups_ItemCheck;
+            //var item = (string)checkedListBoxGroups.Items[e.Index];
+            //foreach (var litem in listTracks.Items)
+            //{
+            //    var listViewItem = (ListViewItem) litem;
+            //    if (listViewItem.Text.StartsWith(item))
+            //    {
+            //        listViewItem.Checked = e.NewValue == CheckState.Checked;
+            //        Debug.WriteLine("Found: " + listViewItem.Text);
+            //    }
+            //}
         }
 
         private void listTracks_ItemCheck(object sender, ItemCheckEventArgs e)
@@ -220,16 +258,16 @@ namespace GroundControl
 
         private void checkedListBoxGroups_ItemCheck(object sender, ItemCheckEventArgs e)
         {
-            var item = (string)checkedListBoxGroups.Items[e.Index];
-            foreach (var litem in listTracks.Items)
-            {
-                var listViewItem = (ListViewItem) litem;
-                if (listViewItem.Text.StartsWith(item))
-                {
-                    listViewItem.Checked = e.NewValue == CheckState.Checked;
-                    Debug.WriteLine("Found: " + listViewItem.Text);
-                }
-            }
+            //var item = (string)checkedListBoxGroups.Items[e.Index];
+            //foreach (var litem in listTracks.Items)
+            //{
+            //    var listViewItem = (ListViewItem) litem;
+            //    if (listViewItem.Text.StartsWith(item))
+            //    {
+            //        listViewItem.Checked = e.NewValue == CheckState.Checked;
+            //        Debug.WriteLine("Found: " + listViewItem.Text);
+            //    }
+            //}
         }
     }
 }

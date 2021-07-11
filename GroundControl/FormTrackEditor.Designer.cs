@@ -30,7 +30,8 @@
         {
             this.listTracks = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.checkedListBoxGroups = new System.Windows.Forms.CheckedListBox();
+            this.listViewGroups = new System.Windows.Forms.ListView();
+            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.SuspendLayout();
             // 
             // listTracks
@@ -63,21 +64,29 @@
             // 
             this.columnHeader1.Width = 174;
             // 
-            // checkedListBoxGroups
+            // listViewGroups
             // 
-            this.checkedListBoxGroups.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.checkedListBoxGroups.FormattingEnabled = true;
-            this.checkedListBoxGroups.Location = new System.Drawing.Point(0, 236);
-            this.checkedListBoxGroups.Name = "checkedListBoxGroups";
-            this.checkedListBoxGroups.Size = new System.Drawing.Size(178, 124);
-            this.checkedListBoxGroups.TabIndex = 1;
+            this.listViewGroups.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.listViewGroups.CheckBoxes = true;
+            this.listViewGroups.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader2});
+            this.listViewGroups.FullRowSelect = true;
+            this.listViewGroups.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
+            this.listViewGroups.HideSelection = false;
+            this.listViewGroups.Location = new System.Drawing.Point(0, 232);
+            this.listViewGroups.Name = "listViewGroups";
+            this.listViewGroups.Size = new System.Drawing.Size(178, 128);
+            this.listViewGroups.TabIndex = 2;
+            this.listViewGroups.UseCompatibleStateImageBehavior = false;
+            this.listViewGroups.View = System.Windows.Forms.View.Details;
             // 
             // FormTrackEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(178, 360);
-            this.Controls.Add(this.checkedListBoxGroups);
+            this.Controls.Add(this.listViewGroups);
             this.Controls.Add(this.listTracks);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -94,6 +103,7 @@
 
         private System.Windows.Forms.ListView listTracks;
         private System.Windows.Forms.ColumnHeader columnHeader1;
-        private System.Windows.Forms.CheckedListBox checkedListBoxGroups;
+        private System.Windows.Forms.ListView listViewGroups;
+        private System.Windows.Forms.ColumnHeader columnHeader2;
     }
 }
