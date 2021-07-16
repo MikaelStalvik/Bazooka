@@ -73,6 +73,7 @@
     <Compile Include="MagnetWinForms.cs" />
     <Compile Include="MruStripMenu.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="ProjectInstance.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RocketServer.cs" />
     <Compile Include="Utils.cs">

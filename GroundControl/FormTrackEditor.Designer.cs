@@ -32,6 +32,8 @@
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.listViewGroups = new System.Windows.Forms.ListView();
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.buttonChangeColor = new System.Windows.Forms.Button();
+            this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             this.SuspendLayout();
             // 
             // listTracks
@@ -81,11 +83,27 @@
             this.listViewGroups.UseCompatibleStateImageBehavior = false;
             this.listViewGroups.View = System.Windows.Forms.View.Details;
             // 
+            // buttonChangeColor
+            // 
+            this.buttonChangeColor.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.buttonChangeColor.Location = new System.Drawing.Point(0, 337);
+            this.buttonChangeColor.Name = "buttonChangeColor";
+            this.buttonChangeColor.Size = new System.Drawing.Size(178, 23);
+            this.buttonChangeColor.TabIndex = 3;
+            this.buttonChangeColor.Text = "Color";
+            this.buttonChangeColor.UseVisualStyleBackColor = true;
+            this.buttonChangeColor.Click += new System.EventHandler(this.buttonChangeColor_Click);
+            // 
+            // colorDialog1
+            // 
+            this.colorDialog1.AnyColor = true;
+            // 
             // FormTrackEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(178, 360);
+            this.Controls.Add(this.buttonChangeColor);
             this.Controls.Add(this.listViewGroups);
             this.Controls.Add(this.listTracks);
             this.MaximizeBox = false;
@@ -105,5 +123,7 @@
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private System.Windows.Forms.ListView listViewGroups;
         private System.Windows.Forms.ColumnHeader columnHeader2;
+        private System.Windows.Forms.Button buttonChangeColor;
+        private System.Windows.Forms.ColorDialog colorDialog1;
     }
 }

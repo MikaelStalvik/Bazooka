@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System.Collections.Generic;
+using System.Drawing;
 
 namespace GroundControl
 {
@@ -10,56 +11,54 @@ namespace GroundControl
             if (idx == -1) return string.Empty;
             return data.Substring(0, idx);
         }
-        public static Color GroupColor(string groupName)
+
+
+        public static Color GroupColor(string name)
         {
-            if (groupName == string.Empty) return Color.Gray;
-            var first = groupName.GetHashCode() + groupName.Length;
-            first %= 16;
-            switch (first)
+            if (string.IsNullOrEmpty(name)) return Color.Gray;
+            var index = GroupIndex(name);
+            index %= 10;
+            switch (index)
             {
                 case 0:
-                    return Color.Aqua;
+                    return Color.DarkRed;
                 case 1:
-                    return Color.Coral;
+                    return Color.DarkOrange;
                 case 2:
-                    return Color.BlueViolet;
+                    return Color.DarkKhaki;
                 case 3:
-                    return Color.Brown;
+                    return Color.DarkSeaGreen;
                 case 4:
-                    return Color.Chartreuse;
-                case 5:
-                    return Color.Crimson;
-                case 6:
-                    return Color.Chocolate;
-                case 7:
-                    return Color.CadetBlue;
-                case 8:
-                    return Color.CornflowerBlue;
-                case 9:
-                    return Color.DarkCyan;
-                case 10:
-                    return Color.DarkGreen;
-                case 11:
-                    return Color.DarkMagenta;
-                case 12:
                     return Color.DarkOliveGreen;
-                case 13:
-                    return Color.DeepPink;
-                case 14:
-                    return Color.DarkGoldenrod;
-                case 15:
-                    return Color.DarkSalmon;
+                case 5:
+                    return Color.DarkCyan;
+                case 6:
+                    return Color.DarkBlue;
+                case 7:
+                    return Color.Indigo;
+                case 8:
+                    return Color.DarkMagenta;
                 default:
-                    return Color.Orchid;
+                    return Color.DeepPink;
             }
         }
-
-        public static SolidBrush GroupBackground(string column)
+        public static SolidBrush GroupBackground(string name)
         {
-            var idx = column.IndexOf(":");
-            var groupName = idx != -1 ? column.Substring(0, idx) : string.Empty;
-            if (groupName == string.Empty) return new SolidBrush(Color.Black);
-            return new SolidBrush(GroupColor(groupName));
+            var group = BazookaHelpers.GetGroup(name);
+            return new SolidBrush(GroupColor(group));
         }
+
+        public static List<string> Groups { get; set; }
+
+        public static int GroupIndex(string group)
+        {
+            return Groups.IndexOf(group);
+        }
+
+        public static string ColorToHex(Color color)
+        {
+            return $"#{color.R:X2}{color.G:X2}{color.B:X2}";
+        }
+
     }
 }

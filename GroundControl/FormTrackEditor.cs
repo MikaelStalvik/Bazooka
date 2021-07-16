@@ -96,12 +96,13 @@ namespace GroundControl
 
             foreach (var track in m_Tracks)
             {
+                var groupName = BazookaHelpers.GetGroup(track.Name);
                 var item = listTracks.Items.Add(new ListViewItem
                 {
                     Text = track.Name, 
                     Checked = track.Visible, 
                     Tag = track,
-                    BackColor = BazookaHelpers.GroupColor(BazookaHelpers.GetGroup(track.Name))
+                    BackColor = BazookaHelpers.GroupColor(groupName)
                 });
                 if (track.Name.IndexOf(":") != -1)
                 {
@@ -268,6 +269,18 @@ namespace GroundControl
             //        Debug.WriteLine("Found: " + listViewItem.Text);
             //    }
             //}
+        }
+
+        private void buttonChangeColor_Click(object sender, EventArgs e)
+        {
+            if (listViewGroups.SelectedItems.Count > 0)
+            {
+                
+                if (colorDialog1.ShowDialog() == DialogResult.OK)
+                {
+                    //button1.BackColor = colorDialog1.Color;
+                }
+            }
         }
     }
 }

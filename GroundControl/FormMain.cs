@@ -673,7 +673,7 @@ namespace GroundControl
                     color = Utils.Gray(60);
 
                 // 8 bars
-                if (iRow % 64 == 0 && iRow != 0) color = Color.Fuchsia;
+                if (iRow % 64 == 0 && iRow != 0) color = Color.DarkOrchid;
 
                 // Draw rect 
                 var rowBGRect = CellRect(-1, iRow, columnsCount + 1, 1).SetWidthMoveRight(pnlDraw.ClientSize.Width).Expand(bottom: 1);
@@ -793,8 +793,8 @@ namespace GroundControl
                     // Select color
                     var color = (key.Row == m_Cursor.Y && iColumn == m_Cursor.X) ? Brushes.Black : Brushes.White;
 
-                    // Draw value
-                    g.DrawString(key.Value.ToString("0.00", CultureInfo.InvariantCulture), rowFont, color, CellRect(iColumn, key.Row).Expand(right: -4), sfFar);
+                    var valueString = key.Value.ToString("0.00", CultureInfo.InvariantCulture);
+                    g.DrawString(valueString, rowFont, color, CellRect(iColumn, key.Row).Expand(right: -4), sfFar);
 
                     // Draw Interpolation
                     if (key.Interpolation != 0)
@@ -1341,6 +1341,7 @@ namespace GroundControl
                     // Load data
                     XmlSerializer ser = new XmlSerializer(typeof(RocketProject));
                     m_Project = ser.Deserialize(reader) as RocketProject;
+                    BazookaHelpers.Groups = new List<string>(m_Project.GetGroups());
 
                     // Groups
                     var groups = m_Project.GetGroups().OrderBy(x => x).ToList();
@@ -1361,6 +1362,20 @@ namespace GroundControl
                                     trks.Add(track);
                                 }
                             }
+                        }
+                    }
+                    // Group colors
+                    foreach (var group in groups)
+                    {
+                        var infoItem = m_Project.GroupInfo.FirstOrDefault(x => x.Name.Equals(group));
+                        if (infoItem == null)
+                        {
+                            var htmlColor = BazookaHelpers.ColorToHex(BazookaHelpers.GroupColor(group));
+                            m_Project.GroupInfo.Add(new GroupInfo
+                            {
+                                Name = group,
+                                Color = htmlColor
+                            });
                         }
                     }
 
@@ -1976,6 +1991,36 @@ namespace GroundControl
                 }
             }
             pnlDraw.Invalidate();
+        }
+
+        private void toolStripMenuItemBookmark_Click(object sender, EventArgs e)
+        {
+            var item = sender as ToolStripMenuItem;
+            var tag = int.Parse((string)item.Tag);
+            SetBookmark(tag);
+        }
+
+        private void bookmarksToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (m_Project.Bookmarks.Count == 0) return;
+            var tsmi = sender as ToolStripMenuItem;
+            if (tsmi == bookmarksToolStripMenuItem)
+            {
+                var iter = 0;
+                var items = bookmarksToolStripMenuItem.DropDownItems;
+                foreach (var item in items)
+                {
+                    var mi = item as ToolStripMenuItem;
+                    var bidx = int.Parse((string) mi.Tag);
+                    if (bidx < m_Project.Bookmarks.Count)
+                    {
+                        var bm = m_Project.Bookmarks[bidx];
+                        mi.Text = $"Bookmark {iter}: {bm.Row}";
+                    }
+
+                    iter++;
+                }
+            }
         }
     }
 }

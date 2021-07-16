@@ -1,9 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms.VisualStyles;
 using System.Xml.Serialization;
 
 namespace GroundControl
@@ -29,6 +25,10 @@ namespace GroundControl
 
         [XmlAttribute("rows")]
         public int Rows = 4096;
+        
+        [XmlArrayItem("groupinfo", typeof(GroupInfo))]
+        [XmlArray("groupinfos")] 
+        public List<GroupInfo> GroupInfo = new List<GroupInfo>();
 
         [XmlArrayItem("track", typeof(TrackInfo))]
         [XmlArray("tracks")]
@@ -54,11 +54,26 @@ namespace GroundControl
                     result.Add(string.Empty);
                 }
             }
-
             return result;
         }
     }
 
+    public class GroupInfo : IComparable
+    {
+        [XmlAttribute("name")] 
+        public string Name;
+
+        [XmlAttribute("color")]
+        public string Color;
+
+
+        public int CompareTo(object obj)
+        {
+            var indata = (string)obj;
+            return this.Name.CompareTo(indata);
+        }
+    }
+    
     public class TrackInfo : IComparable
     {
         [XmlAttribute("name")]
