@@ -278,7 +278,9 @@ namespace GroundControl
                 
                 if (colorDialog1.ShowDialog() == DialogResult.OK)
                 {
-                    //button1.BackColor = colorDialog1.Color;
+                    var item = listViewGroups.SelectedItems[0];
+                    ProjectInstance.UpdateGroupColor(item.Text, BazookaHelpers.ColorToHex(colorDialog1.Color));
+                    item.BackColor = colorDialog1.Color;
                 }
             }
         }

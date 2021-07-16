@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 
 namespace GroundControl
 {
@@ -16,6 +17,13 @@ namespace GroundControl
         public static Color GroupColor(string name)
         {
             if (string.IsNullOrEmpty(name)) return Color.Gray;
+
+            var gc = ProjectInstance.m_Project.GroupInfo.FirstOrDefault(x => x.Name.Equals(name));
+            if (gc != null)
+            {
+                return ColorTranslator.FromHtml(gc.Color);
+            }
+
             var index = GroupIndex(name);
             index %= 10;
             switch (index)

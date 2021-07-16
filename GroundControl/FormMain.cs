@@ -2,9 +2,7 @@
 using NAudio.Wave;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
-using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
@@ -13,7 +11,6 @@ using System.Text;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 using System.Globalization;
-using System.Runtime.InteropServices.WindowsRuntime;
 
 namespace GroundControl
 {
@@ -26,9 +23,7 @@ namespace GroundControl
         private const int InterpolationBarWidth = 3;
 
         // Document related
-        private string m_ProjectFilename;
         private bool m_Modified;
-        private RocketProject m_Project;
         private List<TrackInfo> m_Tracks;
         private List<TrackInfo> m_ColumnToTrack;
         private int m_RowsCount;
@@ -537,11 +532,11 @@ namespace GroundControl
             // Update status bar
             toolStripCurrentRow.Text = @"Row: " + m_Cursor.Y;
 
-            var rowsPerSecond = m_Project.BeatsPerMin * m_Project.RowsPerBeat / 60.0;
+            var rowsPerSecond = ProjectInstance.m_Project.BeatsPerMin * ProjectInstance.m_Project.RowsPerBeat / 60.0;
             var seconds = m_Cursor.Y / rowsPerSecond;
             var time = TimeSpan.FromSeconds(seconds);
 
-            bpmToolStripStatusLabel.Text = $"{m_Project.BeatsPerMin} bpm";
+            bpmToolStripStatusLabel.Text = $"{ProjectInstance.m_Project.BeatsPerMin} bpm";
             timeToolStripStatusLabel.Text = time.ToString();
 
             var track2 = m_ColumnToTrack[m_Cursor.X];
@@ -691,7 +686,7 @@ namespace GroundControl
             g.FillRectangle(titleBrush, titleRect);
 
             // Build formatting string
-            var format = m_Project.TimeFormat;
+            var format = ProjectInstance.m_Project.TimeFormat;
             format = format.Replace("row", "0");
             format = format.Replace("seconds", "1");
             format = format.Replace("time", "2");
@@ -705,7 +700,7 @@ namespace GroundControl
                 if (iRow % 64 == 0 && iRow != 0) color = Color.White;
 
                 // Draw row number
-                var rowsPerSecond = m_Project.BeatsPerMin * m_Project.RowsPerBeat / 60.0;
+                var rowsPerSecond = ProjectInstance.m_Project.BeatsPerMin * ProjectInstance.m_Project.RowsPerBeat / 60.0;
                 var seconds = iRow / rowsPerSecond;
                 var time = TimeSpan.FromSeconds(seconds);
                 try
@@ -727,7 +722,7 @@ namespace GroundControl
             }
 
             // Draw bookmarks
-            foreach (var bookmark in m_Project.Bookmarks)
+            foreach (var bookmark in ProjectInstance.m_Project.Bookmarks)
             {
                 var bookmarkRect = CellRect(-1, bookmark.Row, 0, 1).Expand(right: RowHeight).Expand(right: -1, bottom: -1).Pan(right: 2);
                 g.FillEllipse(Brushes.DarkRed, bookmarkRect);
@@ -1120,7 +1115,7 @@ namespace GroundControl
         private void RebuildKeyMaps()
         {
             // Apply Row count
-            m_RowsCount = m_Project.Rows;
+            m_RowsCount = ProjectInstance.m_Project.Rows;
 
             // Remove keys outside of RowCount
             m_Tracks.ForEach(t => t.Keys = t.Keys.Where(k => k.Row < m_RowsCount).ToList());
@@ -1333,119 +1328,52 @@ namespace GroundControl
 
         private void OpenFile(string filename)
         {
-            try
-            {
-                // Open file
-                using (var reader = new FileStream(filename, FileMode.Open))
-                {
-                    // Load data
-                    XmlSerializer ser = new XmlSerializer(typeof(RocketProject));
-                    m_Project = ser.Deserialize(reader) as RocketProject;
-                    BazookaHelpers.Groups = new List<string>(m_Project.GetGroups());
+            ProjectInstance.OpenProject(filename);
+            // Cache variables
+            m_Tracks = ProjectInstance.m_Project.Tracks;
+            m_RowsCount = ProjectInstance.m_Project.Rows;
 
-                    // Groups
-                    var groups = m_Project.GetGroups().OrderBy(x => x).ToList();
-                    var trks = new List<TrackInfo>();
-                    foreach (var group in groups)
-                    {
-                        foreach (var track in m_Project.Tracks)
-                        {
-                            var idx = track.Name.IndexOf(":");
-                            if (string.IsNullOrEmpty(group) && idx == -1)
-                            {
-                                trks.Add(track);
-                            }
-                            else
-                            {
-                                if (track.Name.StartsWith(group + ":"))
-                                {
-                                    trks.Add(track);
-                                }
-                            }
-                        }
-                    }
-                    // Group colors
-                    foreach (var group in groups)
-                    {
-                        var infoItem = m_Project.GroupInfo.FirstOrDefault(x => x.Name.Equals(group));
-                        if (infoItem == null)
-                        {
-                            var htmlColor = BazookaHelpers.ColorToHex(BazookaHelpers.GroupColor(group));
-                            m_Project.GroupInfo.Add(new GroupInfo
-                            {
-                                Name = group,
-                                Color = htmlColor
-                            });
-                        }
-                    }
+            // Update project file status
+            m_Modified = false;
+            UpdateApplicationTitle();
 
-                    m_Project.Tracks = trks;
+            // Fix bookmarks
+            foreach (var bookmark in ProjectInstance.m_Project.Bookmarks)
+                if (bookmark.Number == -1)
+                    bookmark.Number =
+                        Enumerable.Range(1, 9)
+                            .FirstOrDefault(index => !ProjectInstance.m_Project.Bookmarks.Any(b => b.Number == index));
 
-                    // Cache variables
-                    m_Tracks = m_Project.Tracks;
-                    m_RowsCount = m_Project.Rows;
+            // Rebuild all key maps
+            RebuildKeyMaps();
 
-                    // Update project file status
-                    m_ProjectFilename = filename;
-                    m_Modified = false;
-                    UpdateApplicationTitle();
+            // Update MRU
+            m_MruMenu.AddFile(filename);
+            m_MruMenu.SaveToRegistry();
 
-                    // Fix bookmarks
-                    foreach (var bookmark in m_Project.Bookmarks)
-                        if (bookmark.Number == -1)
-                            bookmark.Number =
-                                Enumerable.Range(1, 9)
-                                    .FirstOrDefault(index => !m_Project.Bookmarks.Any(b => b.Number == index));
+            // Clear undo buffer
+            m_UndoSnapIndex = -1;
+            m_UndoSnaps = new List<Stream>();
 
-                    // Rebuild all key maps
-                    RebuildKeyMaps();
+            // Reload audio
+            LoadAudio();
 
-                    // Update MRU
-                    m_MruMenu.AddFile(filename);
-                    m_MruMenu.SaveToRegistry();
-
-                    // Clear undo buffer
-                    m_UndoSnapIndex = -1;
-                    m_UndoSnaps = new List<Stream>();
-
-                    // Reload audio
-                    LoadAudio();
-
-                    // Refresh screen
-                    pnlDraw.Refresh();
-                    pnlAudioView.Refresh();
-                    pnlVScroll.Refresh();
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(this, "Error while loading the file.\n" + ex.Message, "Loading Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            // Refresh screen
+            pnlDraw.Refresh();
+            pnlAudioView.Refresh();
+            pnlVScroll.Refresh();
         }
 
         private void SaveProject(string filename)
         {
-            try
+            if (ProjectInstance.SaveProject(filename))
             {
-                using (var writer = new FileStream(filename, FileMode.Create))
-                {
-                    // Load data
-                    var ser = new XmlSerializer(typeof(RocketProject));
-                    ser.Serialize(writer, m_Project);
-                }
-
-                // Update project file status
-                m_ProjectFilename = filename;
                 m_Modified = false;
                 UpdateApplicationTitle();
 
                 // Update MRU
                 m_MruMenu.AddFile(filename);
                 m_MruMenu.SaveToRegistry();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(this, "Error while saving file.\n" + ex.Message, "Save Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -1455,10 +1383,10 @@ namespace GroundControl
             var title = "Bitbendaz Bazooka";
 
             // Add file name
-            if (string.IsNullOrEmpty(m_ProjectFilename))
+            if (string.IsNullOrEmpty(ProjectInstance.m_ProjectFilename))
                 title += " [Unsaved Project]";
             else
-                title += " [" + Path.GetFileNameWithoutExtension(m_ProjectFilename) + (m_Modified ? "*]" : "]");
+                title += " [" + Path.GetFileNameWithoutExtension(ProjectInstance.m_ProjectFilename) + (m_Modified ? "*]" : "]");
 
             // Update form property    
             Text = title;
@@ -1472,31 +1400,31 @@ namespace GroundControl
         {
             // Remove bookmark from current row if already exists
             var eraseBookmark = false;
-            var bookmark = m_Project.Bookmarks.FirstOrDefault(b => b.Row == m_Cursor.Y);
+            var bookmark = ProjectInstance.m_Project.Bookmarks.FirstOrDefault(b => b.Row == m_Cursor.Y);
             if (bookmark != null)
             {
                 // Check if this is a bookmark erase (toggling of bookmark)
                 eraseBookmark = (bookmark.Number == number) || (number == -1);
 
                 // Anyway, remove bookmark
-                m_Project.Bookmarks.Remove(bookmark);
+                ProjectInstance.m_Project.Bookmarks.Remove(bookmark);
             }
 
             // Remove bookmark if number already exists somewhere else
-            bookmark = m_Project.Bookmarks.FirstOrDefault(b => b.Number == number);
+            bookmark = ProjectInstance.m_Project.Bookmarks.FirstOrDefault(b => b.Number == number);
             if (bookmark != null)
-                m_Project.Bookmarks.Remove(bookmark);
+                ProjectInstance.m_Project.Bookmarks.Remove(bookmark);
 
             // Create new bookmark (if we need to)
             if (!eraseBookmark)
             {
                 // create a new bookmark
                 bookmark = new Bookmark() { Number = number, Row = m_Cursor.Y };
-                m_Project.Bookmarks.Add(bookmark);
+                ProjectInstance.m_Project.Bookmarks.Add(bookmark);
 
                 // If this is an automatic index finding bookmark, find index
                 if (bookmark.Number == -1)
-                    bookmark.Number = Enumerable.Range(1, 9).FirstOrDefault(index => !m_Project.Bookmarks.Any(b => b.Number == index));
+                    bookmark.Number = Enumerable.Range(1, 9).FirstOrDefault(index => !ProjectInstance.m_Project.Bookmarks.Any(b => b.Number == index));
             }
 
             // Refresh screen
@@ -1511,16 +1439,16 @@ namespace GroundControl
             if (number == -1)
             {
                 // get next bookmark
-                target = m_Project.Bookmarks.OrderBy(t => t.Row).Where(t => t.Row > m_Cursor.Y).FirstOrDefault();
+                target = ProjectInstance.m_Project.Bookmarks.OrderBy(t => t.Row).Where(t => t.Row > m_Cursor.Y).FirstOrDefault();
 
                 // if next could not be found, go to first
                 if (target == null)
-                    target = m_Project.Bookmarks.FirstOrDefault();
+                    target = ProjectInstance.m_Project.Bookmarks.FirstOrDefault();
             }
             else
             {
                 // Find relevent bookmark
-                target = m_Project.Bookmarks.FirstOrDefault(b => b.Number == number);
+                target = ProjectInstance.m_Project.Bookmarks.FirstOrDefault(b => b.Number == number);
             }
 
             // Did we actually manage to find a bookmark?
@@ -1554,7 +1482,7 @@ namespace GroundControl
             // Create snapshot
             var snapStream = new MemoryStream();
             var ser = new XmlSerializer(typeof(RocketProject));
-            ser.Serialize(snapStream, m_Project);
+            ser.Serialize(snapStream, ProjectInstance.m_Project);
 
             // Add stream
             m_UndoSnaps.Add(snapStream);
@@ -1582,11 +1510,11 @@ namespace GroundControl
             var snapStream = m_UndoSnaps[m_UndoSnapIndex];
             snapStream.Seek(0, SeekOrigin.Begin);
             var ser = new XmlSerializer(typeof(RocketProject));
-            m_Project = ser.Deserialize(snapStream) as RocketProject;
+            ProjectInstance.m_Project = ser.Deserialize(snapStream) as RocketProject;
 
             // Rebuild things...
-            m_Tracks = m_Project.Tracks;
-            m_RowsCount = m_Project.Rows;
+            m_Tracks = ProjectInstance.m_Project.Tracks;
+            m_RowsCount = ProjectInstance.m_Project.Rows;
             RebuildKeyMaps();
             RebuildVisibleColumnList();
 
@@ -1601,13 +1529,13 @@ namespace GroundControl
         private void LoadAudio()
         {
             // Do we have anything to load
-            if (string.IsNullOrEmpty(m_Project.AudioFile))
+            if (string.IsNullOrEmpty(ProjectInstance.m_Project.AudioFile))
                 return;
 
             try
             {
                 // Open file
-                var reader = new AudioFileReader(m_Project.AudioFile);
+                var reader = new AudioFileReader(ProjectInstance.m_Project.AudioFile);
 
                 // read data
                 m_AudioWaveFormat = reader.WaveFormat;
@@ -1638,7 +1566,7 @@ namespace GroundControl
             m_AudioTrack = new Bitmap(pnlAudioView.ClientSize.Width, vScrollBar1.Maximum);
 
             // Compute samples per pixel
-            var rowsPerSecond = m_Project.BeatsPerMin * m_Project.RowsPerBeat / 60.0;
+            var rowsPerSecond = ProjectInstance.m_Project.BeatsPerMin * ProjectInstance.m_Project.RowsPerBeat / 60.0;
 
             // Get bits
             BitmapData bmpData = m_AudioTrack.LockBits(
@@ -1743,10 +1671,10 @@ namespace GroundControl
             if (m_Modified)
                 if (MessageBox.Show(this, "Unsaving current project detected.\nAre you sure you want to start a new project?", "Unsaved Project", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) != DialogResult.Yes)
                     return;
+            
+            ProjectInstance.NewProject();
 
-            m_ProjectFilename = "";
-            m_Project = new RocketProject();
-            m_Tracks = m_Project.Tracks;
+            m_Tracks = ProjectInstance.m_Project.Tracks;
             m_UndoSnaps = new List<Stream>();
             m_UndoSnapIndex = -1;
             m_Modified = false;
@@ -1780,10 +1708,10 @@ namespace GroundControl
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
             // Is it the first save? if yes, run saveAs to give a file name
-            if (string.IsNullOrEmpty(m_ProjectFilename))
+            if (string.IsNullOrEmpty(ProjectInstance.m_ProjectFilename))
                 saveAsToolStripMenuItem_Click(null, null);
             else
-                SaveProject(m_ProjectFilename);
+                SaveProject(ProjectInstance.m_ProjectFilename);
         }
 
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1840,7 +1768,7 @@ namespace GroundControl
 
         private void optionsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var dlg = new FormSettings(m_Project);
+            var dlg = new FormSettings(ProjectInstance.m_Project);
             if (dlg.ShowDialog(this) == DialogResult.OK)
             {
                 // Rebuild all keys maps
@@ -2002,7 +1930,7 @@ namespace GroundControl
 
         private void bookmarksToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (m_Project.Bookmarks.Count == 0) return;
+            if (ProjectInstance.m_Project.Bookmarks.Count == 0) return;
             var tsmi = sender as ToolStripMenuItem;
             if (tsmi == bookmarksToolStripMenuItem)
             {
@@ -2012,9 +1940,9 @@ namespace GroundControl
                 {
                     var mi = item as ToolStripMenuItem;
                     var bidx = int.Parse((string) mi.Tag);
-                    if (bidx < m_Project.Bookmarks.Count)
+                    if (bidx < ProjectInstance.m_Project.Bookmarks.Count)
                     {
-                        var bm = m_Project.Bookmarks[bidx];
+                        var bm = ProjectInstance.m_Project.Bookmarks[bidx];
                         mi.Text = $"Bookmark {iter}: {bm.Row}";
                     }
 
