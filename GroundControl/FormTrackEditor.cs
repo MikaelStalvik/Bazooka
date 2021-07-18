@@ -257,20 +257,6 @@ namespace GroundControl
             Visible = false;
         }
 
-        private void checkedListBoxGroups_ItemCheck(object sender, ItemCheckEventArgs e)
-        {
-            //var item = (string)checkedListBoxGroups.Items[e.Index];
-            //foreach (var litem in listTracks.Items)
-            //{
-            //    var listViewItem = (ListViewItem) litem;
-            //    if (listViewItem.Text.StartsWith(item))
-            //    {
-            //        listViewItem.Checked = e.NewValue == CheckState.Checked;
-            //        Debug.WriteLine("Found: " + listViewItem.Text);
-            //    }
-            //}
-        }
-
         private void buttonChangeColor_Click(object sender, EventArgs e)
         {
             if (listViewGroups.SelectedItems.Count > 0)
