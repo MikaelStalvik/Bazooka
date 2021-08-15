@@ -5,4 +5,6 @@ Bazooka is an extended version of Ground Control, whcih is a Windows sync tracke
 Original project:
 https://github.com/edoreshef/ground-control
 
+Bazooka adds colored groups, improved bookmarks and much more.
+
 ![alt text](https://github.com/MikaelStalvik/Bazooka/blob/master/bazooka.png?raw=true)
