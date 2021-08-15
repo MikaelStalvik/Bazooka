@@ -539,6 +539,7 @@ namespace GroundControl
             bpmToolStripStatusLabel.Text = $"{ProjectInstance.m_Project.BeatsPerMin} bpm";
             timeToolStripStatusLabel.Text = time.ToString();
 
+            if (m_ColumnToTrack.Count == 0) return;
             var track2 = m_ColumnToTrack[m_Cursor.X];
             toolStripStatusLabelColumnName.Text = track2.Name;
             
@@ -1930,24 +1931,42 @@ namespace GroundControl
 
         private void bookmarksToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (ProjectInstance.m_Project.Bookmarks.Count == 0) return;
-            var tsmi = sender as ToolStripMenuItem;
-            if (tsmi == bookmarksToolStripMenuItem)
+            bookmarksToolStripMenuItem.DropDownItems.Clear();
+            var i = 0;
+            foreach(var bookmark in ProjectInstance.m_Project.Bookmarks)
             {
-                var iter = 0;
-                var items = bookmarksToolStripMenuItem.DropDownItems;
-                foreach (var item in items)
+                var name = string.IsNullOrEmpty(bookmark.Description)
+                    ? $"Bookmark {i}: {bookmark.Row}"
+                    : $"Bookmark {i}: {bookmark.Description} {bookmark.Row}";
+                var item = new ToolStripMenuItem(name, null, (o, args) =>
                 {
-                    var mi = item as ToolStripMenuItem;
-                    var bidx = int.Parse((string) mi.Tag);
-                    if (bidx < ProjectInstance.m_Project.Bookmarks.Count)
-                    {
-                        var bm = ProjectInstance.m_Project.Bookmarks[bidx];
-                        mi.Text = $"Bookmark {iter}: {bm.Row}";
-                    }
+                    var tag = (int)(o as ToolStripMenuItem).Tag; 
+                    GotoBookmark(tag);
+                });
+                item.Tag = i; 
+                bookmarksToolStripMenuItem.DropDownItems.Add(item);
+                i++;
+            }
 
-                    iter++;
-                }
+            var sep = new ToolStripSeparator();
+            bookmarksToolStripMenuItem.DropDownItems.Add(sep);
+            var addItem = new ToolStripMenuItem("Add", null, (o, args) =>
+            {
+                SetBookmark(ProjectInstance.m_Project.Bookmarks.Count + 1);
+            });
+            bookmarksToolStripMenuItem.DropDownItems.Add(addItem);
+
+            sep = new ToolStripSeparator();
+            bookmarksToolStripMenuItem.DropDownItems.Add(sep);
+            var manageItem = new ToolStripMenuItem("Manage...", null, manageToolStripMenuItem_Click);
+            bookmarksToolStripMenuItem.DropDownItems.Add(manageItem);
+        }
+
+        private void manageToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var dlg = new ManageBookmarksForm(ProjectInstance.m_Project);
+            if (dlg.ShowDialog(this) == DialogResult.OK)
+            {
             }
         }
     }

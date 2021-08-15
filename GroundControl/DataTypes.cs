@@ -179,5 +179,8 @@ namespace GroundControl
 
         [XmlAttribute("number")]
         public int Number = -1;
+
+        [XmlAttribute("description")]
+        public string Description = "";
     }
 }

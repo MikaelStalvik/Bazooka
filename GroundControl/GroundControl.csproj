@@ -71,6 +71,12 @@
       <DependentUpon>FormTrackEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="MagnetWinForms.cs" />
+    <Compile Include="ManageBookmarksForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ManageBookmarksForm.Designer.cs">
+      <DependentUpon>ManageBookmarksForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MruStripMenu.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ProjectInstance.cs" />
@@ -87,6 +93,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormTrackEditor.resx">
       <DependentUpon>FormTrackEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ManageBookmarksForm.resx">
+      <DependentUpon>ManageBookmarksForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
