@@ -18,7 +18,7 @@ namespace GroundControl
             var i = 0;
             foreach (var bookmark in _project.Bookmarks)
             {
-                listBox1.Items.Add($"Bookmark {i}: row: {bookmark.Row}");
+                listBox1.Items.Add(bookmark.GetCanonical(i));
                 i++;
             }
             UpdateUi();
@@ -58,6 +58,20 @@ namespace GroundControl
             var idx = listBox1.SelectedIndex;
             _project.Bookmarks.RemoveAt(idx);
             Populate();
+        }
+
+        private void textBoxDesc_TextChanged(object sender, System.EventArgs e)
+        {
+            var idx = listBox1.SelectedIndex;
+            var bm = _project.Bookmarks[idx];
+            bm.Description = textBoxDesc.Text;
+        }
+
+        private void numericUpDownRow_ValueChanged(object sender, System.EventArgs e)
+        {
+            var idx = listBox1.SelectedIndex;
+            var bm = _project.Bookmarks[idx];
+            bm.Row = (int) numericUpDownRow.Value;
         }
     }
 }

@@ -56,6 +56,8 @@ namespace GroundControl
             }
             return result;
         }
+
+
     }
 
     public class GroupInfo : IComparable
@@ -182,5 +184,13 @@ namespace GroundControl
 
         [XmlAttribute("description")]
         public string Description = "";
+
+        public string GetCanonical(int idx)
+        {
+            var name = string.IsNullOrEmpty(Description)
+                ? $"Bookmark {idx}: {Row}"
+                : $"Bookmark {idx}: {Description} {Row}";
+            return name;
+        }
     }
 }

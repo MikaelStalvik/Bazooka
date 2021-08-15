@@ -1935,10 +1935,7 @@ namespace GroundControl
             var i = 0;
             foreach(var bookmark in ProjectInstance.m_Project.Bookmarks)
             {
-                var name = string.IsNullOrEmpty(bookmark.Description)
-                    ? $"Bookmark {i}: {bookmark.Row}"
-                    : $"Bookmark {i}: {bookmark.Description} {bookmark.Row}";
-                var item = new ToolStripMenuItem(name, null, (o, args) =>
+                var item = new ToolStripMenuItem(bookmark.GetCanonical(i), null, (o, args) =>
                 {
                     var tag = (int)(o as ToolStripMenuItem).Tag; 
                     GotoBookmark(tag);
@@ -1952,7 +1949,7 @@ namespace GroundControl
             bookmarksToolStripMenuItem.DropDownItems.Add(sep);
             var addItem = new ToolStripMenuItem("Add", null, (o, args) =>
             {
-                SetBookmark(ProjectInstance.m_Project.Bookmarks.Count + 1);
+                SetBookmark(ProjectInstance.m_Project.Bookmarks.Count);
             });
             bookmarksToolStripMenuItem.DropDownItems.Add(addItem);
 

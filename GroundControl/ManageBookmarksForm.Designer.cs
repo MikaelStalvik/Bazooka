@@ -85,6 +85,7 @@ namespace GroundControl
             this.textBoxDesc.Name = "textBoxDesc";
             this.textBoxDesc.Size = new System.Drawing.Size(430, 20);
             this.textBoxDesc.TabIndex = 5;
+            this.textBoxDesc.TextChanged += new System.EventHandler(this.textBoxDesc_TextChanged);
             // 
             // numericUpDownRow
             // 
@@ -97,6 +98,7 @@ namespace GroundControl
             this.numericUpDownRow.Name = "numericUpDownRow";
             this.numericUpDownRow.Size = new System.Drawing.Size(120, 20);
             this.numericUpDownRow.TabIndex = 6;
+            this.numericUpDownRow.ValueChanged += new System.EventHandler(this.numericUpDownRow_ValueChanged);
             // 
             // label1
             // 
@@ -120,7 +122,8 @@ namespace GroundControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(520, 337);
+            this.ClientSize = new System.Drawing.Size(520, 316);
+            this.ControlBox = false;
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.numericUpDownRow);
@@ -130,7 +133,9 @@ namespace GroundControl
             this.Controls.Add(this.buttonAdd);
             this.Controls.Add(this.listBox1);
             this.Name = "ManageBookmarksForm";
-            this.Text = "ManageBookmarksForm";
+            this.ShowInTaskbar = false;
+            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
+            this.Text = "Manage Bookmarks";
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownRow)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
