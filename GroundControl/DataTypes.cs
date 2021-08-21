@@ -188,8 +188,8 @@ namespace GroundControl
         public string GetCanonical(int idx)
         {
             var name = string.IsNullOrEmpty(Description)
-                ? $"Bookmark {idx}: {Row}"
-                : $"Bookmark {idx}: {Description} {Row}";
+                ? $"Bookmark {idx}: Row: {Row}"
+                : $"Bookmark {idx}: {Description}, Row: {Row}";
             return name;
         }
     }
