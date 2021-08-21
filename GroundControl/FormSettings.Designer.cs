@@ -239,7 +239,7 @@
             // 
             // openFileDialog
             // 
-            this.openFileDialog.Filter = "MP3 files|*.mp3|All files|*.*";
+            this.openFileDialog.Filter = "M4A files|*.m4a|MP3 files|*.mp3|All files|*.*";
             this.openFileDialog.Title = "Open Audio File";
             // 
             // label1
