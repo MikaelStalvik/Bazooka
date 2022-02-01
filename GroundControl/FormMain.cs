@@ -1339,11 +1339,15 @@ namespace GroundControl
             UpdateApplicationTitle();
 
             // Fix bookmarks
-            foreach (var bookmark in ProjectInstance.m_Project.Bookmarks)
-                if (bookmark.Number == -1)
-                    bookmark.Number =
-                        Enumerable.Range(1, 9)
-                            .FirstOrDefault(index => !ProjectInstance.m_Project.Bookmarks.Any(b => b.Number == index));
+            for(var i = 0; i < ProjectInstance.m_Project.Bookmarks.Count; i++)
+            {
+                ProjectInstance.m_Project.Bookmarks[i].Number = i;
+            }
+            //foreach (var bookmark in ProjectInstance.m_Project.Bookmarks)
+            //    if (bookmark.Number == -1)
+            //        bookmark.Number =
+            //            Enumerable.Range(1, 9)
+            //                .FirstOrDefault(index => !ProjectInstance.m_Project.Bookmarks.Any(b => b.Number == index));
 
             // Rebuild all key maps
             RebuildKeyMaps();
@@ -1965,6 +1969,21 @@ namespace GroundControl
             if (dlg.ShowDialog(this) == DialogResult.OK)
             {
             }
+        }
+
+        private void insert64RowsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            foreach (var track in m_Tracks)
+            {
+                foreach (var key in track.Keys)
+                {
+                    if (key.Row > m_Cursor.Y)
+                    {
+                        key.Row += 64;
+                    }
+                }
+            }
+            pnlDraw.Invalidate();
         }
     }
 }

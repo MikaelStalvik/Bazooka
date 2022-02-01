@@ -187,9 +187,13 @@ namespace GroundControl
 
         public string GetCanonical(int idx)
         {
+            var rowsPerSecond = ProjectInstance.m_Project.BeatsPerMin * ProjectInstance.m_Project.RowsPerBeat / 60.0;
+            var seconds = Row / rowsPerSecond;
+            var time = TimeSpan.FromSeconds(seconds);
+
             var name = string.IsNullOrEmpty(Description)
-                ? $"Bookmark {idx}: Row: {Row}"
-                : $"Bookmark {idx}: {Description}, Row: {Row}";
+                ? $"Bookmark {idx}: Row: {Row}, Time: {time.ToString()}"
+                : $"Bookmark {idx}: {Description}, Row: {Row}, Time: {time.ToString()}";
             return name;
         }
     }

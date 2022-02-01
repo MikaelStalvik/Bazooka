@@ -73,5 +73,11 @@ namespace GroundControl
             var bm = _project.Bookmarks[idx];
             bm.Row = (int) numericUpDownRow.Value;
         }
+
+        private void button1_Click(object sender, System.EventArgs e)
+        {
+            _project.Bookmarks.Sort((a, b) => { return a.Row - b.Row; });
+            Populate();
+        }
     }
 }
