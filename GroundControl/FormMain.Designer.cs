@@ -56,17 +56,14 @@
             this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripSeparator();
             this.trackManagerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.insert10ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.insert64RowsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteRowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.bookmarksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.manageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pnlMainArea = new System.Windows.Forms.Panel();
             this.pnlEditor = new System.Windows.Forms.Panel();
-            this.pnlDraw = new System.Windows.Forms.PanelEx();
-            this.textEdit = new System.Windows.Forms.TextBox();
             this.splitter2 = new System.Windows.Forms.Splitter();
-            this.pnlAudioView = new System.Windows.Forms.PanelEx();
             this.splitter1 = new System.Windows.Forms.Splitter();
-            this.pnlVScroll = new System.Windows.Forms.PanelEx();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripConnectionStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripCurrentRow = new System.Windows.Forms.ToolStripStatusLabel();
@@ -77,12 +74,19 @@
             this.toolStripInterpolation = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripCurrentValue = new System.Windows.Forms.ToolStripStatusLabel();
             this.tmrUpdateUI = new System.Windows.Forms.Timer(this.components);
-            this.insert64RowsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pushDownToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pnlDraw = new System.Windows.Forms.PanelEx();
+            this.textEdit = new System.Windows.Forms.TextBox();
+            this.pnlAudioView = new System.Windows.Forms.PanelEx();
+            this.pnlVScroll = new System.Windows.Forms.PanelEx();
+            this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripSeparator();
+            this.pushUpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStripBookmarks.SuspendLayout();
             this.pnlMainArea.SuspendLayout();
             this.pnlEditor.SuspendLayout();
-            this.pnlDraw.SuspendLayout();
             this.statusStrip1.SuspendLayout();
+            this.pnlDraw.SuspendLayout();
             this.SuspendLayout();
             // 
             // hScrollBar1
@@ -207,6 +211,10 @@
             this.optionsToolStripMenuItem,
             this.toolStripMenuItem4,
             this.trackManagerToolStripMenuItem,
+            this.toolStripMenuItem5,
+            this.pushDownToolStripMenuItem,
+            this.pushUpToolStripMenuItem,
+            this.toolStripMenuItem6,
             this.insert10ToolStripMenuItem,
             this.insert64RowsToolStripMenuItem,
             this.deleteRowToolStripMenuItem});
@@ -291,6 +299,13 @@
             this.insert10ToolStripMenuItem.Text = "Insert 8 rows";
             this.insert10ToolStripMenuItem.Click += new System.EventHandler(this.insert8ToolStripMenuItem_Click);
             // 
+            // insert64RowsToolStripMenuItem
+            // 
+            this.insert64RowsToolStripMenuItem.Name = "insert64RowsToolStripMenuItem";
+            this.insert64RowsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.insert64RowsToolStripMenuItem.Text = "Insert 64 rows";
+            this.insert64RowsToolStripMenuItem.Click += new System.EventHandler(this.insert64RowsToolStripMenuItem_Click);
+            // 
             // deleteRowToolStripMenuItem
             // 
             this.deleteRowToolStripMenuItem.Name = "deleteRowToolStripMenuItem";
@@ -310,7 +325,7 @@
             // manageToolStripMenuItem
             // 
             this.manageToolStripMenuItem.Name = "manageToolStripMenuItem";
-            this.manageToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.manageToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
             this.manageToolStripMenuItem.Text = "Manage";
             this.manageToolStripMenuItem.Click += new System.EventHandler(this.manageToolStripMenuItem_Click);
             // 
@@ -337,33 +352,6 @@
             this.pnlEditor.Size = new System.Drawing.Size(811, 375);
             this.pnlEditor.TabIndex = 3;
             // 
-            // pnlDraw
-            // 
-            this.pnlDraw.BackColor = System.Drawing.Color.Black;
-            this.pnlDraw.Controls.Add(this.textEdit);
-            this.pnlDraw.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlDraw.Location = new System.Drawing.Point(0, 0);
-            this.pnlDraw.Name = "pnlDraw";
-            this.pnlDraw.Size = new System.Drawing.Size(499, 375);
-            this.pnlDraw.TabIndex = 2;
-            this.pnlDraw.TabStop = true;
-            this.pnlDraw.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlDraw_Paint);
-            this.pnlDraw.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pnlDraw_MouseDown);
-            this.pnlDraw.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pnlDraw_MouseMove);
-            this.pnlDraw.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pnlDraw_MouseUp);
-            // 
-            // textEdit
-            // 
-            this.textEdit.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textEdit.Location = new System.Drawing.Point(322, 105);
-            this.textEdit.Name = "textEdit";
-            this.textEdit.Size = new System.Drawing.Size(100, 13);
-            this.textEdit.TabIndex = 0;
-            this.textEdit.Visible = false;
-            this.textEdit.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textEdit_KeyDown);
-            this.textEdit.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textEdit_KeyPress);
-            this.textEdit.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.textEdit_PreviewKeyDown);
-            // 
             // splitter2
             // 
             this.splitter2.Dock = System.Windows.Forms.DockStyle.Right;
@@ -373,18 +361,6 @@
             this.splitter2.TabIndex = 4;
             this.splitter2.TabStop = false;
             // 
-            // pnlAudioView
-            // 
-            this.pnlAudioView.BackColor = System.Drawing.Color.Black;
-            this.pnlAudioView.Dock = System.Windows.Forms.DockStyle.Right;
-            this.pnlAudioView.Location = new System.Drawing.Point(503, 0);
-            this.pnlAudioView.Name = "pnlAudioView";
-            this.pnlAudioView.Size = new System.Drawing.Size(219, 375);
-            this.pnlAudioView.TabIndex = 4;
-            this.pnlAudioView.TabStop = true;
-            this.pnlAudioView.SizeChanged += new System.EventHandler(this.pnlAudioView_SizeChanged);
-            this.pnlAudioView.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlAudioView_Paint);
-            // 
             // splitter1
             // 
             this.splitter1.Dock = System.Windows.Forms.DockStyle.Right;
@@ -393,21 +369,6 @@
             this.splitter1.Size = new System.Drawing.Size(4, 375);
             this.splitter1.TabIndex = 3;
             this.splitter1.TabStop = false;
-            // 
-            // pnlVScroll
-            // 
-            this.pnlVScroll.BackColor = System.Drawing.Color.Black;
-            this.pnlVScroll.Dock = System.Windows.Forms.DockStyle.Right;
-            this.pnlVScroll.Location = new System.Drawing.Point(726, 0);
-            this.pnlVScroll.Name = "pnlVScroll";
-            this.pnlVScroll.Size = new System.Drawing.Size(85, 375);
-            this.pnlVScroll.TabIndex = 0;
-            this.pnlVScroll.TabStop = true;
-            this.pnlVScroll.SizeChanged += new System.EventHandler(this.panelVScroll_SizeChanged);
-            this.pnlVScroll.Paint += new System.Windows.Forms.PaintEventHandler(this.panelVScroll_Paint);
-            this.pnlVScroll.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pnlVScroll_MouseMove);
-            this.pnlVScroll.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pnlVScroll_MouseMove);
-            this.pnlVScroll.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pnlVScroll_MouseMove);
             // 
             // statusStrip1
             // 
@@ -505,12 +466,83 @@
             this.tmrUpdateUI.Enabled = true;
             this.tmrUpdateUI.Tick += new System.EventHandler(this.tmrUpdateUI_Tick);
             // 
-            // insert64RowsToolStripMenuItem
+            // pushDownToolStripMenuItem
             // 
-            this.insert64RowsToolStripMenuItem.Name = "insert64RowsToolStripMenuItem";
-            this.insert64RowsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.insert64RowsToolStripMenuItem.Text = "Insert 64 rows";
-            this.insert64RowsToolStripMenuItem.Click += new System.EventHandler(this.insert64RowsToolStripMenuItem_Click);
+            this.pushDownToolStripMenuItem.Name = "pushDownToolStripMenuItem";
+            this.pushDownToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.pushDownToolStripMenuItem.Text = "Push down";
+            this.pushDownToolStripMenuItem.Click += new System.EventHandler(this.pushDownToolStripMenuItem_Click);
+            // 
+            // pnlDraw
+            // 
+            this.pnlDraw.BackColor = System.Drawing.Color.Black;
+            this.pnlDraw.Controls.Add(this.textEdit);
+            this.pnlDraw.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlDraw.Location = new System.Drawing.Point(0, 0);
+            this.pnlDraw.Name = "pnlDraw";
+            this.pnlDraw.Size = new System.Drawing.Size(499, 375);
+            this.pnlDraw.TabIndex = 2;
+            this.pnlDraw.TabStop = true;
+            this.pnlDraw.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlDraw_Paint);
+            this.pnlDraw.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pnlDraw_MouseDown);
+            this.pnlDraw.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pnlDraw_MouseMove);
+            this.pnlDraw.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pnlDraw_MouseUp);
+            // 
+            // textEdit
+            // 
+            this.textEdit.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textEdit.Location = new System.Drawing.Point(322, 105);
+            this.textEdit.Name = "textEdit";
+            this.textEdit.Size = new System.Drawing.Size(100, 13);
+            this.textEdit.TabIndex = 0;
+            this.textEdit.Visible = false;
+            this.textEdit.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textEdit_KeyDown);
+            this.textEdit.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textEdit_KeyPress);
+            this.textEdit.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.textEdit_PreviewKeyDown);
+            // 
+            // pnlAudioView
+            // 
+            this.pnlAudioView.BackColor = System.Drawing.Color.Black;
+            this.pnlAudioView.Dock = System.Windows.Forms.DockStyle.Right;
+            this.pnlAudioView.Location = new System.Drawing.Point(503, 0);
+            this.pnlAudioView.Name = "pnlAudioView";
+            this.pnlAudioView.Size = new System.Drawing.Size(219, 375);
+            this.pnlAudioView.TabIndex = 4;
+            this.pnlAudioView.TabStop = true;
+            this.pnlAudioView.SizeChanged += new System.EventHandler(this.pnlAudioView_SizeChanged);
+            this.pnlAudioView.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlAudioView_Paint);
+            // 
+            // pnlVScroll
+            // 
+            this.pnlVScroll.BackColor = System.Drawing.Color.Black;
+            this.pnlVScroll.Dock = System.Windows.Forms.DockStyle.Right;
+            this.pnlVScroll.Location = new System.Drawing.Point(726, 0);
+            this.pnlVScroll.Name = "pnlVScroll";
+            this.pnlVScroll.Size = new System.Drawing.Size(85, 375);
+            this.pnlVScroll.TabIndex = 0;
+            this.pnlVScroll.TabStop = true;
+            this.pnlVScroll.SizeChanged += new System.EventHandler(this.panelVScroll_SizeChanged);
+            this.pnlVScroll.Paint += new System.Windows.Forms.PaintEventHandler(this.panelVScroll_Paint);
+            this.pnlVScroll.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pnlVScroll_MouseMove);
+            this.pnlVScroll.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pnlVScroll_MouseMove);
+            this.pnlVScroll.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pnlVScroll_MouseMove);
+            // 
+            // toolStripMenuItem5
+            // 
+            this.toolStripMenuItem5.Name = "toolStripMenuItem5";
+            this.toolStripMenuItem5.Size = new System.Drawing.Size(177, 6);
+            // 
+            // toolStripMenuItem6
+            // 
+            this.toolStripMenuItem6.Name = "toolStripMenuItem6";
+            this.toolStripMenuItem6.Size = new System.Drawing.Size(177, 6);
+            // 
+            // pushUpToolStripMenuItem
+            // 
+            this.pushUpToolStripMenuItem.Name = "pushUpToolStripMenuItem";
+            this.pushUpToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.pushUpToolStripMenuItem.Text = "Push up";
+            this.pushUpToolStripMenuItem.Click += new System.EventHandler(this.pushUpToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -530,10 +562,10 @@
             this.menuStripBookmarks.PerformLayout();
             this.pnlMainArea.ResumeLayout(false);
             this.pnlEditor.ResumeLayout(false);
-            this.pnlDraw.ResumeLayout(false);
-            this.pnlDraw.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
+            this.pnlDraw.ResumeLayout(false);
+            this.pnlDraw.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -589,6 +621,10 @@
         private System.Windows.Forms.ToolStripMenuItem bookmarksToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem manageToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem insert64RowsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem pushDownToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem5;
+        private System.Windows.Forms.ToolStripMenuItem pushUpToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem6;
     }
 }
 

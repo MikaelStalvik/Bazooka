@@ -1985,6 +1985,34 @@ namespace GroundControl
             }
             pnlDraw.Invalidate();
         }
+
+        private void pushDownToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (m_ColumnToTrack.Count == 0) return;
+            var track = m_ColumnToTrack[m_Cursor.X];
+            foreach(var key in track.Keys)
+            {
+                if (key.Row > m_Cursor.Y)
+                {
+                    key.Row += 1;
+                }
+            }
+            pnlDraw.Invalidate();
+        }
+
+        private void pushUpToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (m_ColumnToTrack.Count == 0) return;
+            var track = m_ColumnToTrack[m_Cursor.X];
+            foreach (var key in track.Keys)
+            {
+                if (key.Row > m_Cursor.Y)
+                {
+                    key.Row -= 1;
+                }
+            }
+            pnlDraw.Invalidate();
+        }
     }
 }
 
