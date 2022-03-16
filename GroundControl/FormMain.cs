@@ -2013,6 +2013,32 @@ namespace GroundControl
             }
             pnlDraw.Invalidate();
         }
+
+        private void overviewToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            overviewToolStripMenuItem.Checked = !overviewToolStripMenuItem.Checked;
+            if (overviewToolStripMenuItem.Checked)
+            {
+                pnlVScroll.Show();
+            }
+            else
+            {
+                pnlVScroll.Hide();
+            }
+        }
+
+        private void waveformToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            waveformToolStripMenuItem.Checked = !waveformToolStripMenuItem.Checked;
+            if (waveformToolStripMenuItem.Checked)
+            {
+                pnlAudioView.Show();
+            }
+            else
+            {
+                pnlAudioView.Hide();
+            }
+        }
     }
 }
 

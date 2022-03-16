@@ -46,13 +46,13 @@ namespace GroundControl
             this.listBox1.FormattingEnabled = true;
             this.listBox1.Location = new System.Drawing.Point(12, 12);
             this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(496, 199);
+            this.listBox1.Size = new System.Drawing.Size(496, 251);
             this.listBox1.TabIndex = 0;
             this.listBox1.SelectedValueChanged += new System.EventHandler(this.listBox1_SelectedValueChanged);
             // 
             // buttonAdd
             // 
-            this.buttonAdd.Location = new System.Drawing.Point(13, 283);
+            this.buttonAdd.Location = new System.Drawing.Point(12, 321);
             this.buttonAdd.Name = "buttonAdd";
             this.buttonAdd.Size = new System.Drawing.Size(75, 23);
             this.buttonAdd.TabIndex = 1;
@@ -62,7 +62,7 @@ namespace GroundControl
             // 
             // buttonRemove
             // 
-            this.buttonRemove.Location = new System.Drawing.Point(95, 283);
+            this.buttonRemove.Location = new System.Drawing.Point(93, 321);
             this.buttonRemove.Name = "buttonRemove";
             this.buttonRemove.Size = new System.Drawing.Size(75, 23);
             this.buttonRemove.TabIndex = 2;
@@ -73,7 +73,7 @@ namespace GroundControl
             // buttonOK
             // 
             this.buttonOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.buttonOK.Location = new System.Drawing.Point(433, 283);
+            this.buttonOK.Location = new System.Drawing.Point(433, 321);
             this.buttonOK.Name = "buttonOK";
             this.buttonOK.Size = new System.Drawing.Size(75, 23);
             this.buttonOK.TabIndex = 3;
@@ -82,15 +82,15 @@ namespace GroundControl
             // 
             // textBoxDesc
             // 
-            this.textBoxDesc.Location = new System.Drawing.Point(78, 218);
+            this.textBoxDesc.Location = new System.Drawing.Point(93, 269);
             this.textBoxDesc.Name = "textBoxDesc";
-            this.textBoxDesc.Size = new System.Drawing.Size(430, 20);
+            this.textBoxDesc.Size = new System.Drawing.Size(415, 20);
             this.textBoxDesc.TabIndex = 5;
             this.textBoxDesc.TextChanged += new System.EventHandler(this.textBoxDesc_TextChanged);
             // 
             // numericUpDownRow
             // 
-            this.numericUpDownRow.Location = new System.Drawing.Point(78, 257);
+            this.numericUpDownRow.Location = new System.Drawing.Point(93, 295);
             this.numericUpDownRow.Maximum = new decimal(new int[] {
             99999,
             0,
@@ -104,7 +104,7 @@ namespace GroundControl
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 221);
+            this.label1.Location = new System.Drawing.Point(12, 272);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(60, 13);
             this.label1.TabIndex = 7;
@@ -113,7 +113,7 @@ namespace GroundControl
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(15, 257);
+            this.label2.Location = new System.Drawing.Point(12, 297);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(29, 13);
             this.label2.TabIndex = 8;
@@ -121,7 +121,7 @@ namespace GroundControl
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(187, 283);
+            this.button1.Location = new System.Drawing.Point(187, 321);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 9;
@@ -133,7 +133,7 @@ namespace GroundControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(520, 316);
+            this.ClientSize = new System.Drawing.Size(520, 356);
             this.ControlBox = false;
             this.Controls.Add(this.button1);
             this.Controls.Add(this.label2);

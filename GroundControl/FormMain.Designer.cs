@@ -55,6 +55,10 @@
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripSeparator();
             this.trackManagerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripSeparator();
+            this.pushDownToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pushUpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripSeparator();
             this.insert10ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.insert64RowsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteRowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -74,14 +78,12 @@
             this.toolStripInterpolation = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripCurrentValue = new System.Windows.Forms.ToolStripStatusLabel();
             this.tmrUpdateUI = new System.Windows.Forms.Timer(this.components);
-            this.pushDownToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.overviewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pnlDraw = new System.Windows.Forms.PanelEx();
             this.textEdit = new System.Windows.Forms.TextBox();
             this.pnlAudioView = new System.Windows.Forms.PanelEx();
             this.pnlVScroll = new System.Windows.Forms.PanelEx();
-            this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripSeparator();
-            this.pushUpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.waveformToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStripBookmarks.SuspendLayout();
             this.pnlMainArea.SuspendLayout();
             this.pnlEditor.SuspendLayout();
@@ -210,6 +212,8 @@
             this.toolStripMenuItem3,
             this.optionsToolStripMenuItem,
             this.toolStripMenuItem4,
+            this.waveformToolStripMenuItem,
+            this.overviewToolStripMenuItem,
             this.trackManagerToolStripMenuItem,
             this.toolStripMenuItem5,
             this.pushDownToolStripMenuItem,
@@ -292,6 +296,30 @@
             this.trackManagerToolStripMenuItem.Text = "Track Manager";
             this.trackManagerToolStripMenuItem.Click += new System.EventHandler(this.trackManagerToolStripMenuItem_Click);
             // 
+            // toolStripMenuItem5
+            // 
+            this.toolStripMenuItem5.Name = "toolStripMenuItem5";
+            this.toolStripMenuItem5.Size = new System.Drawing.Size(177, 6);
+            // 
+            // pushDownToolStripMenuItem
+            // 
+            this.pushDownToolStripMenuItem.Name = "pushDownToolStripMenuItem";
+            this.pushDownToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.pushDownToolStripMenuItem.Text = "Push down";
+            this.pushDownToolStripMenuItem.Click += new System.EventHandler(this.pushDownToolStripMenuItem_Click);
+            // 
+            // pushUpToolStripMenuItem
+            // 
+            this.pushUpToolStripMenuItem.Name = "pushUpToolStripMenuItem";
+            this.pushUpToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.pushUpToolStripMenuItem.Text = "Push up";
+            this.pushUpToolStripMenuItem.Click += new System.EventHandler(this.pushUpToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItem6
+            // 
+            this.toolStripMenuItem6.Name = "toolStripMenuItem6";
+            this.toolStripMenuItem6.Size = new System.Drawing.Size(177, 6);
+            // 
             // insert10ToolStripMenuItem
             // 
             this.insert10ToolStripMenuItem.Name = "insert10ToolStripMenuItem";
@@ -325,7 +353,7 @@
             // manageToolStripMenuItem
             // 
             this.manageToolStripMenuItem.Name = "manageToolStripMenuItem";
-            this.manageToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
+            this.manageToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.manageToolStripMenuItem.Text = "Manage";
             this.manageToolStripMenuItem.Click += new System.EventHandler(this.manageToolStripMenuItem_Click);
             // 
@@ -466,12 +494,14 @@
             this.tmrUpdateUI.Enabled = true;
             this.tmrUpdateUI.Tick += new System.EventHandler(this.tmrUpdateUI_Tick);
             // 
-            // pushDownToolStripMenuItem
+            // overviewToolStripMenuItem
             // 
-            this.pushDownToolStripMenuItem.Name = "pushDownToolStripMenuItem";
-            this.pushDownToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.pushDownToolStripMenuItem.Text = "Push down";
-            this.pushDownToolStripMenuItem.Click += new System.EventHandler(this.pushDownToolStripMenuItem_Click);
+            this.overviewToolStripMenuItem.Checked = true;
+            this.overviewToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.overviewToolStripMenuItem.Name = "overviewToolStripMenuItem";
+            this.overviewToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.overviewToolStripMenuItem.Text = "Overview";
+            this.overviewToolStripMenuItem.Click += new System.EventHandler(this.overviewToolStripMenuItem_Click);
             // 
             // pnlDraw
             // 
@@ -527,22 +557,14 @@
             this.pnlVScroll.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pnlVScroll_MouseMove);
             this.pnlVScroll.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pnlVScroll_MouseMove);
             // 
-            // toolStripMenuItem5
+            // waveformToolStripMenuItem
             // 
-            this.toolStripMenuItem5.Name = "toolStripMenuItem5";
-            this.toolStripMenuItem5.Size = new System.Drawing.Size(177, 6);
-            // 
-            // toolStripMenuItem6
-            // 
-            this.toolStripMenuItem6.Name = "toolStripMenuItem6";
-            this.toolStripMenuItem6.Size = new System.Drawing.Size(177, 6);
-            // 
-            // pushUpToolStripMenuItem
-            // 
-            this.pushUpToolStripMenuItem.Name = "pushUpToolStripMenuItem";
-            this.pushUpToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.pushUpToolStripMenuItem.Text = "Push up";
-            this.pushUpToolStripMenuItem.Click += new System.EventHandler(this.pushUpToolStripMenuItem_Click);
+            this.waveformToolStripMenuItem.Checked = true;
+            this.waveformToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.waveformToolStripMenuItem.Name = "waveformToolStripMenuItem";
+            this.waveformToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.waveformToolStripMenuItem.Text = "Waveform";
+            this.waveformToolStripMenuItem.Click += new System.EventHandler(this.waveformToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -625,6 +647,8 @@
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem5;
         private System.Windows.Forms.ToolStripMenuItem pushUpToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem6;
+        private System.Windows.Forms.ToolStripMenuItem overviewToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem waveformToolStripMenuItem;
     }
 }
 
