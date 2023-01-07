@@ -1,4 +1,4 @@
-﻿
+
 # Tips & trix i Bazooka för Salva mea:
 
 - Kör i Windowed , high för "enklaste" läge
@@ -131,8 +131,35 @@ Det finns lite olika raymarchers som kan mergas in i en scen. Dessa kontrolleras
 Varje marcher har en massa individuella värden, rm_param1-8 samt position, ljus med mera.
 För att slå av raymarch sätt rm:effect till 0, för att slå på en effekt sätt den till ett värde:
 
+- 0: Passthrough
 - 1: Icoshedron lazers
 - 2: Gyro
 - 7: Spiral ribbons
 - 9: Menger
+
+## Ljus
+Ljus hanteras i två typer, directional light (solen) som bara har en riktning samt max 4st point lights som har en position och riktningen går cirkulärt ut från lampans mitt.
+#### Directional light
+kontrollera riktning med:
+- light:dir_light_x
+- light:dir_light_y
+- light:dir_light_z
+
+#### Point lights
+Kontrollera position med: (pl1-pl4)
+- light:pl1_pos_x
+- light:pl1_pos_y
+- light:pl1_pos_z
+
+ Kontrollera ljusstyrka med:
+ - light:pl1_intensity (0 = av)
+ - light:pl1_state: lampan är på eller av (0 = av, 1 = på)
+
+Färg på lampan styrs av:
+- light:pl1_r
+- light:pl1_g 
+- light:pl1_b
+
+Utöver detta går det att påverka hur mycket alla pointlights skall "mixas" in med:
+- light:pointlight_mix (grad av mixning)
 
