@@ -163,3 +163,12 @@ Färg på lampan styrs av:
 Utöver detta går det att påverka hur mycket alla pointlights skall "mixas" in med:
 - light:pointlight_mix (grad av mixning)
 
+#### Ljuspåverkan på meshar
+Kontrollera vilken cubemap som används för IBL med scene:pbr_envmap.
+Går också att labba med från Main Window > MeshEnvMap.
+
+#### Skybox
+Kontrollera vilken skybox som används med scene:envmap_typ.
+Går också att labba med från Main Window > EnvMap.
+
+
