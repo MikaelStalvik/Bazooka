@@ -11,6 +11,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 using System.Globalization;
+using System.Diagnostics;
 
 namespace GroundControl
 {
@@ -29,6 +30,7 @@ namespace GroundControl
         private int m_RowsCount;
         private Dictionary<KeyInfo, TrackInfo> m_KeyToTrack;
         private List<KeyInfo>[] m_KeysInRow = new List<KeyInfo>[0];
+        private bool isResizing { get; set; }
 
         // Current view related members
         private Point m_ViewTopLeftOffset;
@@ -122,6 +124,7 @@ namespace GroundControl
             m_TrackEditor.TracksChanged += TrackEditor_TracksChanged;
             m_TrackEditor.TracksRemoved += TrackEditor_TracksRemoved;
             m_TrackEditor.Show(this);
+            
         }
 
         #region Resizing related
@@ -140,6 +143,10 @@ namespace GroundControl
 
         private void pnlAudioView_SizeChanged(object sender, EventArgs e)
         {
+            if (isResizing)
+            {
+                return;
+            }
             BuildAudioTrack();
         }
 
@@ -817,6 +824,10 @@ namespace GroundControl
 
         private void pnlAudioView_Paint(object sender, PaintEventArgs e)
         {
+            if (isResizing)
+            {
+                return;
+            }
             if (m_AudioTrack != null)
             {
                 // Compute dest rect
@@ -2038,6 +2049,47 @@ namespace GroundControl
             {
                 pnlAudioView.Hide();
             }
+        }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+        private void toolStripButton1_Click(object sender, EventArgs e)
+        {
+            deleteRowToolStripMenuItem_Click(null, EventArgs.Empty);
+        }
+
+        private void toolStripButton2_Click(object sender, EventArgs e)
+        {
+            waveformToolStripMenuItem_Click(null, EventArgs.Empty);
+        }
+
+        private void toolStripButton3_Click(object sender, EventArgs e)
+        {
+            overviewToolStripMenuItem_Click(null, EventArgs.Empty);
+        }
+
+        private void toolStripButton4_Click(object sender, EventArgs e)
+        {
+            trackManagerToolStripMenuItem_Click(null, EventArgs.Empty);
+        }
+
+        private void MainForm_ResizeBegin(object sender, EventArgs e)
+        {
+            isResizing = true;
+        }
+
+        private void MainForm_ResizeEnd(object sender, EventArgs e)
+        {
+            isResizing = false;
+            pnlAudioView.Invalidate();
+        }
+
+        private void toolStripButton5_Click(object sender, EventArgs e)
+        {
+            optionsToolStripMenuItem_Click(null, EventArgs.Empty);
         }
     }
 }
